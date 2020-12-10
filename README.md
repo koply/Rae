@@ -12,4 +12,5 @@ Rae
 | data.dat
 ```
 Data File -> Mute times are kept here to avoid data loss.
+
 Config File -> Token, owners, cooldown time etc.
