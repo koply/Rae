@@ -3,3 +3,4 @@
 *.iml
 *.dat
 *.json
+dependency-reduced-pom.xml
