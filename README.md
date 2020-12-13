@@ -6,7 +6,7 @@ Rae Discord bot includes Music commands. Writed with KCommando JDA.
 ### File Path Scheme
 ```
 Rae
- | lib
+ | lib/
  | Rae.jar
  | config.json
  | data.dat
@@ -22,6 +22,6 @@ git clone https://github.com/MusaBrt/Rae/
 cd Rae/
 mvn install
 ```
-After this commands, your Rae build is ready in `target/Rae/`.
+After this commands, your Rae build is ready in `target/Rae/`
 
 For run -> `java -jar Rae.jar`
