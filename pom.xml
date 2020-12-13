@@ -6,7 +6,7 @@
 
     <groupId>me.koply</groupId>
     <artifactId>rae</artifactId>
-    <version>1.0-Release</version>
+    <version>1.0.1-Release</version>
 
     <name>Rae Discord Bot</name>
 
@@ -105,8 +105,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.MusaBrt</groupId>
-            <artifactId>KCommando</artifactId>
+            <groupId>com.github.MusaBrt.KCommando</groupId>
+            <artifactId>jda-integration</artifactId>
             <version>${kcommando.version}</version>
         </dependency>
 

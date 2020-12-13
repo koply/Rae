@@ -26,20 +26,21 @@ public final class PlayCommand extends JDACommand {
     public final boolean handle(@NotNull MessageReceivedEvent e, @NotNull String[] args) {
         if (args.length == 1) return false;
         final GuildVoiceState selfVoiceState = e.getGuild().getSelfMember().getVoiceState();
+        final GuildVoiceState userVoiceState = e.getMember().getVoiceState();
 
-        if (!e.getMember().getVoiceState().inVoiceChannel()) {
+        if (userVoiceState == null || !e.getMember().getVoiceState().inVoiceChannel()) {
             e.getChannel().sendMessage(Utilities.embed("Müzik açabilmek için bir sesli odada olmanız gerekmektedir.")).queue();
             return false;
         }
-        final boolean samechannel = e.getMember().getVoiceState().getChannel().getId().equals(selfVoiceState.getChannel().getId());
-        if (selfVoiceState.inVoiceChannel() && !samechannel) {
+        if (selfVoiceState != null && selfVoiceState.inVoiceChannel() &&
+                e.getMember().getVoiceState().getChannel().getIdLong() == selfVoiceState.getChannel().getIdLong()) {
             e.getChannel().sendMessage(Utilities.embed("Müzik açabilmek için benimle aynı odada olmalısın.")).queue();
             return false;
         }
 
         final AudioManager audioManager = e.getGuild().getAudioManager();
         final VoiceChannel channel = e.getMember().getVoiceState().getChannel();
-        if (!selfVoiceState.inVoiceChannel()) {
+        if (selfVoiceState == null || !selfVoiceState.inVoiceChannel()) {
             audioManager.openAudioConnection(channel);
         }
 
