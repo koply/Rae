@@ -24,7 +24,7 @@ public final class ReactionListener extends ListenerAdapter {
                 }
                 if (i!=0) System.out.println("Cookie cleaner: " + i + " ReactData removed.");
             });
-        });
+        }, 1);
     }
 
     @Override

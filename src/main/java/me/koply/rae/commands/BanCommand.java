@@ -1,10 +1,9 @@
 package me.koply.rae.commands;
 
-import me.koply.kcommando.internal.KRunnable;
+import me.koply.kcommando.internal.annotations.Commando;
 import me.koply.rae.Main;
 import me.koply.rae.util.Utilities;
 import me.koply.kcommando.integration.impl.jda.JDACommand;
-import me.koply.kcommando.internal.Commando;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -26,7 +25,7 @@ public final class BanCommand extends JDACommand {
     private final int prefixLength;
     public BanCommand() {
         prefixLength = Main.getPrefix().length();
-        getInfo().setGuildOnlyCallback((KRunnable<MessageReceivedEvent>) (e) -> e.getMessage().addReaction("⛔").queue());
+        getInfo().setGuildOnlyCallback((e) -> e.getMessage().addReaction("⛔").queue());
     }
 
     @Override

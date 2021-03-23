@@ -1,9 +1,9 @@
 package me.koply.rae.commands;
 
+import me.koply.kcommando.internal.annotations.Commando;
 import me.koply.rae.Main;
 import me.koply.rae.util.Utilities;
 import me.koply.kcommando.integration.impl.jda.JDACommand;
-import me.koply.kcommando.internal.Commando;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 

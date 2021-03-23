@@ -1,11 +1,10 @@
 package me.koply.rae.commands;
 
-import me.koply.kcommando.internal.KRunnable;
+import me.koply.kcommando.internal.annotations.Commando;
 import me.koply.rae.Main;
 import me.koply.rae.music.PlayerManager;
 import me.koply.rae.util.Utilities;
 import me.koply.kcommando.integration.impl.jda.JDACommand;
-import me.koply.kcommando.internal.Commando;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -18,8 +17,8 @@ public final class PlayCommand extends JDACommand {
     private final int prefixLength;
     public PlayCommand() {
         prefixLength = Main.getPrefix().length();
-        getInfo().setGuildOnlyCallback((KRunnable<MessageReceivedEvent>) (e) -> e.getMessage().addReaction("⛔").queue());
-        getInfo().setOnFalseCallback((KRunnable<MessageReceivedEvent>) (e) -> e.getMessage().addReaction("🤔").queue());
+        getInfo().setGuildOnlyCallback((e) -> e.getMessage().addReaction("⛔").queue());
+        getInfo().setOnFalseCallback((e) -> e.getMessage().addReaction("🤔").queue());
     }
 
     @Override

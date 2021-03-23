@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.SelfUser;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.json.JSONArray;
@@ -97,7 +98,7 @@ public final class Main extends JDAIntegration {
             i++;
         }
 
-        final KCommando kcm = new KCommando(this)
+        final KCommando<MessageReceivedEvent> kcm = new KCommando<>(this)
                 .setPrefix(config.getString("prefix"))
                 .setOwners(tempowners)
                 .setPackage(HelpCommand.class.getPackage().getName())
@@ -116,10 +117,10 @@ public final class Main extends JDAIntegration {
         initHelpEmbed(kcm.getParameters().getCommandMethods(), jda.getSelfUser());
     }
 
-    private void initHelpEmbed(Map<String, CommandToRun> map, SelfUser self) {
-        final HashSet<CommandToRun> set = new HashSet<>();
+    private void initHelpEmbed(Map<String, CommandToRun<MessageReceivedEvent>> map, SelfUser self) {
+        final HashSet<CommandToRun<MessageReceivedEvent>> set = new HashSet<>();
         final StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, CommandToRun> entry : map.entrySet()) {
+        for (Map.Entry<String, CommandToRun<MessageReceivedEvent>> entry : map.entrySet()) {
             if (set.contains(entry.getValue())) continue;
             sb.append("`").append(entry.getKey()).append("` -> ").append(entry.getValue().getClazz().getInfo().getDescription()).append("\n");
             set.add(entry.getValue());

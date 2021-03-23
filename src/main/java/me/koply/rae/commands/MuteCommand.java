@@ -1,12 +1,11 @@
 package me.koply.rae.commands;
 
-import me.koply.kcommando.internal.KRunnable;
+import me.koply.kcommando.internal.annotations.Commando;
 import me.koply.rae.Main;
 import me.koply.rae.data.DataManager;
 import me.koply.rae.util.Utilities;
 import me.koply.kcommando.CronService;
 import me.koply.kcommando.integration.impl.jda.JDACommand;
-import me.koply.kcommando.internal.Commando;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -28,7 +27,7 @@ public final class MuteCommand extends JDACommand {
         muteRoleName = Main.getConfig().getString("muterolename");
         prefixLength = Main.getPrefix().length();
 
-        getInfo().setGuildOnlyCallback((KRunnable<MessageReceivedEvent>) (e) -> e.getMessage().addReaction("⛔").queue());
+        getInfo().setGuildOnlyCallback((e) -> e.getMessage().addReaction("⛔").queue());
 
         CronService.getInstance().addRunnable(() -> {
             System.gc(); // for cleanup
@@ -51,7 +50,7 @@ public final class MuteCommand extends JDACommand {
             if (i != 0) System.out.println(i+" kişinin susturulmasının süresi bitti.");
             Main.getMuteTimestamps().forEach((k,v)-> {
             });
-        });
+        }, 1);
     }
 
     @Override
@@ -132,7 +131,7 @@ public final class MuteCommand extends JDACommand {
     private long getMillisFromString(String s) {
         final String str = s.toLowerCase();
         final char last = str.charAt(str.length()-1);
-        long num = 0L;
+        long num;
         try {
             num = Long.parseLong(str.substring(0, str.length()-1));
         } catch (Throwable t) {

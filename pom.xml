@@ -11,7 +11,7 @@
     <name>Rae Discord Bot</name>
 
     <properties>
-        <kcommando.version>4.0</kcommando.version>
+        <kcommando.version>4.2.7</kcommando.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
