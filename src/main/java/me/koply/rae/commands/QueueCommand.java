@@ -22,31 +22,21 @@ public class QueueCommand extends JDACommand {
 
     @Override
     public boolean handle(MessageReceivedEvent e) {
-        GuildVoiceState memVoiceState = e.getMember().getVoiceState();
-        GuildVoiceState selfVoiceState = e.getGuild().getSelfMember().getVoiceState();
+        if (Utilities.voiceCheck(e)) return false;
 
-        if (memVoiceState.inVoiceChannel() && selfVoiceState.inVoiceChannel()) {
-            if (memVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-                final GuildMusicManager manager = PlayerManager.getInstance().getMusicManager(e.getGuild());
-                if (manager.scheduler.queue.size() == 0) {
-                    e.getMessage().addReaction("🥴").queue();
-                } else {
-                    StringBuilder sb = new StringBuilder("```\n");
-                    for (AudioTrack track : manager.scheduler.queue) {
-                        sb.append(track.getInfo().title).append("\n");
-                    }
-                    sb.append("```");
-                    e.getChannel().sendMessage(new EmbedBuilder()
-                            .setColor(Utilities.randomColor())
-                            .setFooter(e.getJDA().getSelfUser().getName() + "by koply", e.getJDA().getSelfUser().getAvatarUrl())
-                            .setDescription(sb.toString())
-                            .setTitle("Müzik Sırası 🎶")
-                            .build()).queue();
-                }
-                return true;
-            }
+        final GuildMusicManager manager = PlayerManager.getInstance().getMusicManager(e.getGuild());
+        StringBuilder sb = new StringBuilder("```\n");
+        sb.append("[X] ").append(manager.audioPlayer.getPlayingTrack().getInfo().title).append("\n");
+        for (AudioTrack track : manager.scheduler.queue) {
+            sb.append(track.getInfo().title).append("\n");
         }
-
-        return false;
+        sb.append("```");
+        e.getChannel().sendMessage(new EmbedBuilder()
+                .setColor(Utilities.randomColor())
+                .setFooter(e.getJDA().getSelfUser().getName() + " by koply", e.getJDA().getSelfUser().getAvatarUrl())
+                .setDescription(sb.toString())
+                .setTitle("Müzik Sırası 🎶")
+                .build()).queue();
+        return true;
     }
 }

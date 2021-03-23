@@ -1,9 +1,11 @@
 package me.koply.rae.util;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.internal.utils.Checks;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,6 +58,15 @@ public final class Utilities {
     public static MessageEmbed embed(String txt) {
         return new EmbedBuilder().setColor(randomColor())
                 .setDescription(txt).build();
+    }
+
+    public static boolean voiceCheck(MessageReceivedEvent e) {
+        GuildVoiceState memVoiceState = e.getMember().getVoiceState();
+        GuildVoiceState selfVoiceState = e.getGuild().getSelfMember().getVoiceState();
+
+        if (!memVoiceState.inVoiceChannel() && !selfVoiceState.inVoiceChannel()) return true;
+        if (!memVoiceState.getChannel().equals(selfVoiceState.getChannel())) return true;
+        return false;
     }
 
     /**

@@ -4,6 +4,7 @@ import me.koply.kcommando.internal.annotations.Commando;
 import me.koply.rae.music.GuildMusicManager;
 import me.koply.rae.music.PlayerManager;
 import me.koply.kcommando.integration.impl.jda.JDACommand;
+import me.koply.rae.util.Utilities;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
@@ -18,20 +19,12 @@ public final class StopCommand extends JDACommand {
 
     @Override
     public final boolean handle(@NotNull MessageReceivedEvent e, @NotNull String[] args) {
-        GuildVoiceState memVoiceState = e.getMember().getVoiceState();
-        GuildVoiceState selfVoiceState = e.getGuild().getSelfMember().getVoiceState();
-
-        if (memVoiceState.inVoiceChannel() && selfVoiceState.inVoiceChannel()) {
-            if (memVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-                final GuildMusicManager manager = PlayerManager.getInstance().getMusicManager(e.getGuild());
-                manager.scheduler.player.stopTrack();
-                manager.scheduler.queue.clear();
-                e.getMessage().addReaction("👋").queue();
-                e.getGuild().getAudioManager().closeAudioConnection();
-                return true;
-            }
-        }
-
-        return false;
+        if (Utilities.voiceCheck(e)) return false;
+        final GuildMusicManager manager = PlayerManager.getInstance().getMusicManager(e.getGuild());
+        manager.scheduler.player.stopTrack();
+        manager.scheduler.queue.clear();
+        e.getMessage().addReaction("👋").queue();
+        e.getGuild().getAudioManager().closeAudioConnection();
+        return true;
     }
 }
