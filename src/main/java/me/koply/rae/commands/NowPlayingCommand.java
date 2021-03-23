@@ -12,14 +12,14 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
         aliases = {"np", "pn"},
         description = "Şu anda çalan şarkıyı görmenize yarar",
         guildOnly = true)
-public class NowPlayingCommand extends JDACommand {
+public final class NowPlayingCommand extends JDACommand {
 
     public NowPlayingCommand() {
         getInfo().setOnFalseCallback((e) -> e.getMessage().addReaction("🤔").queue());
     }
 
     @Override
-    public boolean handle(MessageReceivedEvent e) {
+    public final boolean handle(MessageReceivedEvent e) {
         if (Utilities.voiceCheck(e)) return false;
         final GuildMusicManager manager = PlayerManager.getInstance().getMusicManager(e.getGuild());
 

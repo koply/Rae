@@ -7,21 +7,20 @@ import me.koply.rae.music.GuildMusicManager;
 import me.koply.rae.music.PlayerManager;
 import me.koply.rae.util.Utilities;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Commando(name = "Sırayı Gör",
         aliases = {"queue", "q", "list"},
         description = "Müzik sırasını görmeye yarar",
         guildOnly = true)
-public class QueueCommand extends JDACommand {
+public final class QueueCommand extends JDACommand {
 
     public QueueCommand() {
         getInfo().setOnFalseCallback((e) -> e.getMessage().addReaction("🤔").queue());
     }
 
     @Override
-    public boolean handle(MessageReceivedEvent e) {
+    public final boolean handle(MessageReceivedEvent e) {
         if (Utilities.voiceCheck(e)) return false;
 
         final GuildMusicManager manager = PlayerManager.getInstance().getMusicManager(e.getGuild());
