@@ -33,7 +33,7 @@ public final class PlayCommand extends JDACommand {
             return false;
         }
         if (selfVoiceState != null && selfVoiceState.inVoiceChannel() &&
-                e.getMember().getVoiceState().getChannel().getIdLong() == selfVoiceState.getChannel().getIdLong()) {
+                e.getMember().getVoiceState().getChannel().getIdLong() != selfVoiceState.getChannel().getIdLong()) {
             e.getChannel().sendMessage(Utilities.embed("Müzik açabilmek için benimle aynı odada olmalısın.")).queue();
             return false;
         }
