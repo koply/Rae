@@ -48,7 +48,7 @@ public final class PlayerManager {
         });
     }
 
-    public final void loadAndPlay(TextChannel c, AudioManager audioManager, String url) {
+    public final void loadAndPlay(TextChannel c, AudioManager audioManager, String url, boolean isUrl) {
         final GuildMusicManager musicManager = getMusicManager(c.getGuild());
         musicManager.scheduler.setAudioManager(audioManager);
         audioPlayerManager.loadItemOrdered(musicManager, url, new AudioLoadResultHandler() {
@@ -62,13 +62,19 @@ public final class PlayerManager {
             public void playlistLoaded(AudioPlaylist list) {
                 final List<AudioTrack> tracks = list.getTracks();
                 final AudioTrack audioTrack = tracks.get(0);
-		long leftTime = 0;
-		for (AudioTrack track : tracks) {
-			musicManager.scheduler.queue(track);
-			leftTime += track.getInfo().length;
+		if (!isUrl) {
+			musicManager.scheduler.queue(audioTrack);
+                	c.sendMessage(getEmbed(audioTrack.getInfo(), c.getJDA().getSelfUser())).queue();
+		} else {
+			long leftTime = 0;
+			for (AudioTrack track : tracks) {
+				musicManager.scheduler.queue(track);
+				leftTime += track.getInfo().length;
+			}
+			String title = "[" + audioTrack.getInfo().title + "](" + audioTrack.getInfo().uri + ")";
+                	c.sendMessage(getListEmbed(leftTime, c.getJDA().getSelfUser(), tracks.size(), title)).queue();
 		}
-                c.sendMessage(getListEmbed(leftTime, c.getJDA().getSelfUser(), tracks.size())).queue();
-            }
+	    }
 
             @Override
             public void noMatches() {
@@ -91,10 +97,11 @@ public final class PlayerManager {
 
     }
 
-    private MessageEmbed getListEmbed(long length, SelfUser u, int count) {
+    private MessageEmbed getListEmbed(long length, SelfUser u, int count, String title) {
         return new EmbedBuilder()
                 .setTitle("Müzikler sıraya eklendi! " + Utilities.OKEY )
-                .setDescription(count + " adet müzik - 🕙 " + Utilities.getKalanSure(length))
+		.addField("🎶Şu an çalan", title, false)
+		.addField("Playlist Detayları", count + " adet müzik \n🕙 " + Utilities.getKalanSure(length), false)
                 .setColor(new Color(60, 143, 62))
                 .setFooter(u.getName() + " by koply", u.getAvatarUrl()).build();
 
