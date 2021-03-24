@@ -62,8 +62,12 @@ public final class PlayerManager {
             public void playlistLoaded(AudioPlaylist list) {
                 final List<AudioTrack> tracks = list.getTracks();
                 final AudioTrack audioTrack = tracks.get(0);
-                c.sendMessage(getEmbed(audioTrack.getInfo(), c.getJDA().getSelfUser())).queue();
-                musicManager.scheduler.queue(audioTrack);
+		long leftTime = 0;
+		for (AudioTrack track : tracks) {
+			musicManager.scheduler.queue(track);
+			leftTime += track.getInfo().length;
+		}
+                c.sendMessage(getListEmbed(leftTime, c.getJDA().getSelfUser(), tracks.size())).queue();
             }
 
             @Override
