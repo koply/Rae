@@ -45,7 +45,7 @@ public final class PlayCommand extends JDACommand {
 
         String link = e.getMessage().getContentDisplay().substring(prefixLength + args[0].length()).trim();
         boolean isUrl = Utilities.isUrl(link);
-	link = isUrl ? link : "ytsearch:"+link;
+	    link = isUrl ? link : "ytsearch:"+link;
 
         PlayerManager.getInstance().loadAndPlay(e.getTextChannel(), audioManager, link, isUrl);
         return true;

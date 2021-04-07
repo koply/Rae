@@ -13,6 +13,8 @@ import java.awt.*;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Random;
@@ -38,9 +40,8 @@ public final class Utilities {
             br.close();
         } catch (Throwable t) {
             t.printStackTrace();
-        } finally {
-            return sb.toString();
         }
+        return sb.toString();
     }
 
     public static void writeFile(File file, String str) {
@@ -67,6 +68,31 @@ public final class Utilities {
         if (!memVoiceState.inVoiceChannel() && !selfVoiceState.inVoiceChannel()) return true;
         if (!memVoiceState.getChannel().equals(selfVoiceState.getChannel())) return true;
         return false;
+    }
+
+    public static String readUrl(String url) {
+        try {
+            URLConnection connection = new URL(url).openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36");
+            connection.connect();
+            InputStream is = connection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+            String readed = readAll(rd);
+            is.close();
+            return readed;
+        } catch (Exception netutarsakhayrimiza) {
+            netutarsakhayrimiza.printStackTrace();
+            return null;
+        }
+    }
+
+    private static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        return sb.toString();
     }
 
     /**
