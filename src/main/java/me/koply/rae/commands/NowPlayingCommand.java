@@ -1,5 +1,6 @@
 package me.koply.rae.commands;
 
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.koply.kcommando.integration.impl.jda.JDACommand;
 import me.koply.kcommando.internal.annotations.Commando;
 import me.koply.rae.music.GuildMusicManager;
@@ -22,10 +23,12 @@ public final class NowPlayingCommand extends JDACommand {
     public final boolean handle(MessageReceivedEvent e) {
         if (Utilities.voiceCheck(e)) return false;
         final GuildMusicManager manager = PlayerManager.getInstance().getMusicManager(e.getGuild());
+        AudioTrack track = manager.audioPlayer.getPlayingTrack();
+        long position = track.getPosition();
 
         e.getChannel().sendMessage(new EmbedBuilder()
                 .setTitle("Şu an çalıyor 🎶")
-                .setDescription("```\n" + manager.audioPlayer.getPlayingTrack().getInfo().title + "```")
+                .setDescription("```\n" + track.getInfo().title + "\n-----> "+ Utilities.getKalanSure(position) + "/" + Utilities.getKalanSure(track.getDuration())+" <-----```")
                 .setColor(Utilities.randomColor())
                 .setFooter(e.getJDA().getSelfUser().getName() + " by koply", e.getJDA().getSelfUser().getAvatarUrl())
                 .build()).queue();

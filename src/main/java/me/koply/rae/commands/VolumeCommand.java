@@ -20,6 +20,8 @@ public final class VolumeCommand extends JDACommand {
     @Override
     public final boolean handle(MessageReceivedEvent e, String[] args) {
         if (args.length == 1) return false;
+        if (Utilities.voiceCheck(e)) return false;
+
         int num = 0;
         try {
             num = Integer.parseInt(args[1]);
@@ -28,7 +30,7 @@ public final class VolumeCommand extends JDACommand {
         }
 
         if (num > 100 || num < 0) return false;
-        if (Utilities.voiceCheck(e)) return false;
+
 
         final GuildMusicManager manager = PlayerManager.getInstance().getMusicManager(e.getGuild());
 

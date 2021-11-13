@@ -24,6 +24,14 @@ public final class Utilities {
     public static final String NOPE = "❌";
     public static final String OKEY = "✅";
 
+    public static Integer parseInt(String field) {
+        try {
+            return Integer.parseInt(field);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
     public static String readFile(File file) {
         final StringBuilder sb = new StringBuilder();
         try {
