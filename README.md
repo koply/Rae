@@ -1,7 +1,7 @@
 # Rae
 Rae Discord bot includes music commands. Writed with KCommando JDA.
 
-[KCommando Framework](https://github.com/MusaBrt/KCommando)
+[KCommando Framework](https://github.com/koply/KCommando)
 
 ### File Path Scheme
 ```
@@ -38,7 +38,7 @@ A bit complicated.
 ## How To Install & Run?
 
 ```
-git clone https://github.com/MusaBrt/Rae/
+git clone https://github.com/koply/Rae/
 cd Rae/
 mvn install
 ..
